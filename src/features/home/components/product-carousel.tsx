@@ -17,6 +17,25 @@ type ProductCarouselProps = {
   className?: string;
 };
 
+/** Ignore sub-pixel / animation-induced scroll noise */
+const SCROLL_JITTER_PX = 4;
+
+function closestSlideIndex(scroller: HTMLDivElement) {
+  const center = scroller.scrollLeft + scroller.clientWidth / 2;
+  let closest = 0;
+  let minDist = Number.POSITIVE_INFINITY;
+  Array.from(scroller.children).forEach((child, index) => {
+    const node = child as HTMLElement;
+    const mid = node.offsetLeft + node.clientWidth / 2;
+    const dist = Math.abs(mid - center);
+    if (dist < minDist) {
+      minDist = dist;
+      closest = index;
+    }
+  });
+  return closest;
+}
+
 export function ProductCarousel({
   label,
   children,
@@ -25,37 +44,55 @@ export function ProductCarousel({
 }: ProductCarouselProps) {
   const slides = Children.toArray(children);
   const scrollerRef = useRef<HTMLDivElement>(null);
+  const settledLeftRef = useRef(0);
   const [active, setActive] = useState(0);
+  /** Blob fluid only after snap settles — not mid-swipe / sticky touch hover */
+  const [fluidIndex, setFluidIndex] = useState(0);
 
-  const updateActive = useCallback(() => {
+  const settleFluid = useCallback(() => {
     const el = scrollerRef.current;
     if (!el || slides.length === 0) return;
-    const center = el.scrollLeft + el.clientWidth / 2;
-    let closest = 0;
-    let minDist = Number.POSITIVE_INFINITY;
-    Array.from(el.children).forEach((child, index) => {
-      const node = child as HTMLElement;
-      const mid = node.offsetLeft + node.clientWidth / 2;
-      const dist = Math.abs(mid - center);
-      if (dist < minDist) {
-        minDist = dist;
-        closest = index;
-      }
-    });
+    const closest = closestSlideIndex(el);
+    settledLeftRef.current = el.scrollLeft;
     setActive(closest);
+    setFluidIndex(closest);
   }, [slides.length]);
 
   useEffect(() => {
     const el = scrollerRef.current;
     if (!el) return;
-    updateActive();
-    el.addEventListener("scroll", updateActive, { passive: true });
-    window.addEventListener("resize", updateActive);
-    return () => {
-      el.removeEventListener("scroll", updateActive);
-      window.removeEventListener("resize", updateActive);
+    settleFluid();
+
+    let settleTimer = 0;
+    const onScroll = () => {
+      const closest = closestSlideIndex(el);
+      setActive(closest);
+
+      // Blob scale/translate can nudge scrollable overflow; ignore that jitter
+      // so we don't pause/restart fluid and fight snap.
+      if (Math.abs(el.scrollLeft - settledLeftRef.current) < SCROLL_JITTER_PX) {
+        return;
+      }
+
+      setFluidIndex((current) => (current === -1 ? current : -1));
+      window.clearTimeout(settleTimer);
+      settleTimer = window.setTimeout(settleFluid, 140);
     };
-  }, [updateActive]);
+    const onScrollEnd = () => {
+      window.clearTimeout(settleTimer);
+      settleFluid();
+    };
+
+    el.addEventListener("scroll", onScroll, { passive: true });
+    el.addEventListener("scrollend", onScrollEnd);
+    window.addEventListener("resize", settleFluid);
+    return () => {
+      window.clearTimeout(settleTimer);
+      el.removeEventListener("scroll", onScroll);
+      el.removeEventListener("scrollend", onScrollEnd);
+      window.removeEventListener("resize", settleFluid);
+    };
+  }, [settleFluid]);
 
   const scrollTo = (index: number) => {
     const el = scrollerRef.current;
@@ -83,7 +120,9 @@ export function ProductCarousel({
             role="group"
             aria-roledescription="slide"
             aria-label={`${index + 1} of ${slides.length}`}
-            className={`shrink-0 snap-center ${slideClassName}`}
+            className={`shrink-0 snap-center overflow-clip ${slideClassName} ${
+              index === fluidIndex ? "is-blob-fluid" : ""
+            }`}
           >
             {slide}
           </div>

@@ -85,7 +85,7 @@ export function CookieSelection({ children }: { children?: ReactNode }) {
                     : "creation-product-right"
                 } ${
                   isActive
-                    ? "z-20"
+                    ? "is-blob-fluid z-20"
                     : dimmed
                       ? "z-0 opacity-40"
                       : "z-[1] opacity-100"

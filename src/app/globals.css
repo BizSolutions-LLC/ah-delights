@@ -214,20 +214,45 @@ body {
   will-change: transform;
 }
 
-.group:hover .blob-fluid-mask,
-.group:hover .blob-fluid-outer {
+/*
+  Fluid motion is hover-only on fine pointers. Touch sticky :hover would
+  start it mid-swipe; carousels / selections use `.is-blob-fluid` instead.
+*/
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .blob-fluid-mask,
+  .group:hover .blob-fluid-outer {
+    animation: blob-fluid-mask 2.4s cubic-bezier(0.37, 0, 0.63, 1) infinite
+      alternate;
+    transition: none;
+  }
+
+  .group:hover .blob-fluid-mask-counter {
+    animation: blob-fluid-mask-counter 2.4s cubic-bezier(0.37, 0, 0.63, 1)
+      infinite alternate;
+    transition: none;
+  }
+
+  .group:hover .blob-fluid-inner {
+    animation: blob-fluid-inner 2.7s cubic-bezier(0.37, 0, 0.63, 1) 0.05s
+      infinite alternate;
+    transition: none;
+  }
+}
+
+.is-blob-fluid .blob-fluid-mask,
+.is-blob-fluid .blob-fluid-outer {
   animation: blob-fluid-mask 2.4s cubic-bezier(0.37, 0, 0.63, 1) infinite
     alternate;
   transition: none;
 }
 
-.group:hover .blob-fluid-mask-counter {
+.is-blob-fluid .blob-fluid-mask-counter {
   animation: blob-fluid-mask-counter 2.4s cubic-bezier(0.37, 0, 0.63, 1)
     infinite alternate;
   transition: none;
 }
 
-.group:hover .blob-fluid-inner {
+.is-blob-fluid .blob-fluid-inner {
   animation: blob-fluid-inner 2.7s cubic-bezier(0.37, 0, 0.63, 1) 0.05s infinite
     alternate;
   transition: none;
@@ -244,7 +269,11 @@ body {
   .group:hover .blob-fluid-mask,
   .group:hover .blob-fluid-mask-counter,
   .group:hover .blob-fluid-outer,
-  .group:hover .blob-fluid-inner {
+  .group:hover .blob-fluid-inner,
+  .is-blob-fluid .blob-fluid-mask,
+  .is-blob-fluid .blob-fluid-mask-counter,
+  .is-blob-fluid .blob-fluid-outer,
+  .is-blob-fluid .blob-fluid-inner {
     animation: none;
   }
 }
