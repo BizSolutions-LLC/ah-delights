@@ -1,6 +1,7 @@
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ProductCarousel } from "@/features/home/components/product-carousel";
 import { bestSellers, type ProductItem } from "@/features/home/products";
+import { preventOrphan } from "@/lib/typography";
 
 /** Figma frame "Our Best Seller" — 1440×925 */
 const FIGMA = {
@@ -72,13 +73,13 @@ function BestSellerCard({
         >
           <div className="mb-2.5 flex items-center gap-1.5">
             <div className="h-px min-w-0 flex-1 bg-ad-primary-text/35" />
-            <h3 className="shrink-0 text-center font-montserrat text-lg font-semibold text-ad-primary-text md:text-xl">
-              {item.name}
+            <h3 className="shrink-0 text-pretty text-center font-montserrat text-lg font-semibold text-ad-primary-text md:text-xl">
+              {preventOrphan(item.name)}
             </h3>
             <div className="h-px min-w-0 flex-1 bg-ad-primary-text/35" />
           </div>
-          <p className="font-montserrat text-sm text-ad-primary-text md:text-lg">
-            {item.description}
+          <p className="text-pretty font-montserrat text-sm text-ad-primary-text md:text-lg">
+            {item.description ? preventOrphan(item.description) : null}
           </p>
         </div>
       </div>
@@ -169,10 +170,10 @@ export function BestSellers() {
         <div className="mx-auto flex w-full max-w-[1060px] flex-col items-center gap-[50px] px-5 py-16 md:px-0 md:pb-[140px] md:pt-[100px]">
           <SectionHeading title="Our Best Seller" />
 
-          <p className="w-full text-center font-montserrat text-base text-ad-primary-text md:text-lg">
+          <p className="w-full text-pretty text-center font-montserrat text-base text-ad-primary-text md:text-lg">
             Discover <strong className="font-bold">AhDelights&apos;</strong> most
             popular pastries featuring rich dark chocolate made from imported
-            cacao powder.
+            {"\u00A0"}cacao{"\u00A0"}powder.
           </p>
 
           <ProductCarousel

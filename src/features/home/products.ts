@@ -47,25 +47,25 @@ export const bestSellers: ProductItem[] = [
 
 export const homeMadePastries: ProductItem[] = [
   {
-    name: "Butter Cashew",
+    name: "Butter Cashew Bites",
     image: "/products/product-butter-cashew.png",
-    imageFocus: { position: "50% 50%", scale: 1.02 },
+    imageFocus: { position: "50% 50%", scale: 0.85 },
   },
   {
     name: "Butter Mango Squares",
     image: "/products/product-butter-mango.png",
-    imageFocus: { position: "50% 50%", scale: 1.02 },
+    imageFocus: { position: "50% 50%", scale: 0.85 },
   },
   {
     name: "Calamansi Muffin Streusel",
     image: "/products/product-calamansi-muffin.png",
     // Tall photo — slight bias toward the muffins, not overly cropped in
-    imageFocus: { position: "50% 58%", scale: 1.04 },
+    imageFocus: { position: "50% 58%", scale: 0.85 },
   },
   {
     name: "Choco Caramel Decadent Cake",
     image: "/products/product-choco-caramel-cake.png",
-    imageFocus: { position: "50% 50%", scale: 1.02 },
+    imageFocus: { position: "50% 50%", scale: 0.85 },
   },
 ];
 
@@ -99,14 +99,14 @@ export const classicOthers: ProductItem[] = [
     description:
       "Elegant, comforting, and irresistibly chocolatey, it’s the kind of classic favorite that brings joy to any dessert table, celebration, or quiet moment at home.",
     image: "/products/product-choco-cupcake.png",
-    imageFocus: { position: "48% 58%", scale: 1 },
+    imageFocus: { position: "48% 38%", scale: 0.81 },
   },
   {
     name: "Gourmet Brownies",
     description:
       "What makes these brownies truly special is the assortment of gourmet toppings that add layers of flavor and fun to every bite. Enjoy the crunch of chocolate beads, the refreshing hint of mint, the creamy sweetness of white chocolate, and the nutty richness of nuts. Every piece offers a unique taste experience.",
     image: "/products/product-gourmet-brownies.png",
-    imageFocus: { position: "50% 50%", scale: 0.96 },
+    imageFocus: { position: "50% 50%", scale: 0.86 },
   },
 ];
 
@@ -114,12 +114,12 @@ export const ubeTreats: ProductItem[] = [
   {
     name: "Ube Cashew Squares",
     image: "/products/product-ube-cashew.png",
-    imageFocus: { position: "50% 48%", scale: 0.96 },
+    imageFocus: { position: "50% 48%", scale: 0.86 },
   },
   {
     name: "Cheesy Coconut Macaroons with Ube",
     image: "/products/product-cheesy-macaroons.png",
-    imageFocus: { position: "50% 45%", scale: 0.96 },
+    imageFocus: { position: "50% 45%", scale: 0.82 },
   },
 ];
 
@@ -128,20 +128,20 @@ export const flavorsOfFrance: ProductItem[] = [
     name: "Chocolate Crinkles",
     description: "Bold, luxurious chocolate flavor without being overly sweet.",
     image: "/products/product-chocolate-crinkles.png",
-    imageFocus: { position: "50% 50%", scale: 1.22, rotate: 0 },
+    imageFocus: { position: "50% 50%", scale: 0.75, rotate: 0 },
   },
   {
     name: "Double Choco Cupcake",
     description:
       "Deep, velvety chocolate flavor, soft and luscious. each cupcake is topped with swirl of silky chocolate buttercream",
-    image: "/products/product-double-choco-cupcakes-upright.png",
-    // Asset is shot slightly CCW — straighten inside the France blob.
-    imageFocus: { position: "50% 48%", scale: 1.25, rotate: 0 },
+    // Pre-masked Figma fill — rotates with the france blob (frameLockedPhoto).
+    image: "/products/product-double-choco-cupcakes-figma.png",
+    imageFocus: { position: "50% 50%", scale: 0.9 },
   },
   {
     name: "Choco Decadent Cups",
     description: "Silky smooth, intense deep chocolate, sinfully decadent.",
     image: "/products/product-choco-decadent-cups.png",
-    imageFocus: { position: "50% 50%", scale: 1.22, rotate: 0 },
+    imageFocus: { position: "50% 50%", scale: 0.76, rotate: 0 },
   },
 ];

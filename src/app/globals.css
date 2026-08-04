@@ -158,13 +158,14 @@ body {
     --blob-x: -2;
     --blob-y: 1.6;
     --blob-r: -2.8;
-    --blob-s: 0.976;
+    /* Slight overscale (vs pure inverse of mask) so photo edges stay hidden */
+    --blob-s: 1.04;
   }
   100% {
     --blob-x: 2.2;
     --blob-y: -1.8;
     --blob-r: 2.4;
-    --blob-s: 0.966;
+    --blob-s: 1.055;
   }
 }
 

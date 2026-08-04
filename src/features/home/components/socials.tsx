@@ -14,12 +14,12 @@ export function Socials({
     <section className="bg-ad-primary-bg px-5 pb-20 pt-12 md:px-20">
       <div className="mx-auto flex max-w-[1060px] flex-col items-center gap-8">
         <SectionHeading title={title} />
-        <p className="max-w-3xl text-center font-montserrat text-base text-ad-primary-text md:text-lg">
+        <p className="w-full text-pretty text-center font-montserrat text-base text-ad-primary-text md:text-lg">
           {description ?? (
             <>
               Follow <strong className="font-bold">AhDelights</strong> for
               product updates, featured pastries, and the latest from our
-              kitchen.
+              {"\u00A0"}kitchen.
             </>
           )}
         </p>

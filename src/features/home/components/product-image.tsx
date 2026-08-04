@@ -27,9 +27,15 @@ type ProductImageProps = {
   flip?: boolean;
   /**
    * Rotate the blob frame 180° (Figma: Double Choco Cupcake).
-   * Photo is counter-rotated so the product stays upright.
+   * Photo is counter-rotated so the product stays upright — unless
+   * `frameLockedPhoto` is set (photo rotates with the frame, like Figma fills).
    */
   invertFrame?: boolean;
+  /**
+   * Keep the photo locked to the blob (no counter-rotate). Use for
+   * pre-masked Figma fills that already match the artboard orientation.
+   */
+  frameLockedPhoto?: boolean;
   /** Match Figma crop / avoid looking zoomed out */
   focus?: ProductImageFocus;
   className?: string;
@@ -112,41 +118,172 @@ const FRAME: Record<ProductFrameVariant, FrameConfig> = {
     mask: "/icons/mask-blob-france.svg",
     outer: "/icons/blob-frame-france-outer.svg",
     inner: "/icons/blob-frame-france-inner.svg",
-    shell: "relative mx-auto aspect-[350/311] w-full max-w-[350px]",
-    rotateShell: "rotate-90",
-    artboard:
-      "absolute left-1/2 top-1/2 aspect-[272/319] h-[112%] -translate-x-1/2 -translate-y-1/2",
-    photoClass: "absolute inset-[2%]",
-    outerRotate: "rotate-[8.22deg] scale-[1.03]",
-    innerRotate: "-rotate-[6.24deg] scale-[0.97]",
+    // Figma Crinkles frame: 350×310.615 shell (see FranceBlobArtboard)
+    shell: "relative mx-auto aspect-[350/310.615] w-full max-w-[350px]",
+    artboard: "absolute inset-0",
+    photoClass: "",
+    outerRotate: "",
+    innerRotate: "",
   },
 };
 
-function BlobArtboard({
+/**
+ * Figma Flavors of France frame (node Crinkles / Double Decendent Cups):
+ * shell 350×310.615 with three independently rotated copies of the same
+ * 268.35×314.864 vector — photo 90°, outer 98.22°, inner 83.76°.
+ * Unlike cookies, there is no parent rotate-90 wrapping the whole artboard.
+ */
+function FranceBlobArtboard({
   src,
   alt,
   frame,
   invertPhoto = false,
+  frameLockedPhoto = false,
   focus,
 }: {
   src: string;
   alt: string;
   frame: FrameConfig;
   invertPhoto?: boolean;
+  frameLockedPhoto?: boolean;
+  focus?: ProductImageFocus;
+}) {
+  const position = focus?.position ?? "50% 50%";
+  const scale = focus?.scale ?? 1.12;
+
+  // Photo stays upright unless it's a pre-masked Figma fill (cupcake).
+  const photoRotateDeg = frameLockedPhoto
+    ? 0
+    : (invertPhoto ? 180 : 0) - 90;
+  const quarterTurn = Math.abs(photoRotateDeg) % 180 === 90;
+  const fit = frameLockedPhoto ? "object-contain" : "object-cover";
+
+  // Native 268.35×314.864 vector, sized as % of each Figma AABB parent.
+  const photoNativeStyle = {
+    width: `${(268.35 / 314.864) * 100}%`,
+    aspectRatio: "268.35 / 314.864",
+  } as const;
+  const outerNativeStyle = {
+    width: `${(268.35 / 350) * 100}%`,
+    aspectRatio: "268.35 / 314.864",
+  } as const;
+  const innerNativeStyle = {
+    width: `${(268.35 / 342.176) * 100}%`,
+    aspectRatio: "268.35 / 314.864",
+  } as const;
+
+  return (
+    <div className="absolute inset-0">
+      {/* Photo — AABB 314.864×268.35 at (14.97, 21.44), content rotate 90° */}
+      <div className="absolute left-[4.277%] top-[6.902%] flex h-[86.393%] w-[89.961%] items-center justify-center">
+        <div className="flex-none rotate-90" style={photoNativeStyle}>
+          <div
+            className="blob-fluid-mask relative size-full overflow-hidden"
+            style={{
+              WebkitMaskImage: `url(${frame.mask})`,
+              maskImage: `url(${frame.mask})`,
+              WebkitMaskSize: "100% 100%",
+              maskSize: "100% 100%",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskPosition: "center",
+              maskPosition: "center",
+            }}
+          >
+            <div className="blob-fluid-mask-counter absolute inset-0">
+              <div
+                className={
+                  quarterTurn
+                    ? "absolute left-1/2 top-1/2 aspect-square w-[160%] -translate-x-1/2 -translate-y-1/2"
+                    : frameLockedPhoto
+                      ? "absolute inset-[-6%]"
+                      : "absolute inset-[-10%]"
+                }
+                style={
+                  photoRotateDeg
+                    ? { rotate: `${photoRotateDeg}deg` }
+                    : undefined
+                }
+              >
+                <Image
+                  src={src}
+                  alt={alt}
+                  fill
+                  className={fit}
+                  sizes="(max-width: 768px) 100vw, 350px"
+                  style={{
+                    objectPosition: position,
+                    transform: `scale(${scale})${
+                      focus?.rotate ? ` rotate(${focus.rotate}deg)` : ""
+                    }`,
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Outer stroke — AABB 350×310.615 at (0,0), content rotate 98.22° */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 flex items-center justify-center"
+      >
+        <div
+          className="blob-fluid-outer relative flex-none rotate-[98.22deg]"
+          style={outerNativeStyle}
+        >
+          {/* Figma: absolute inset-[-0.64%_-0.75%] around stroke SVG */}
+          <div className="absolute inset-[-0.64%_-0.75%]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={frame.outer} alt="" className="block size-full max-w-none" />
+          </div>
+        </div>
+      </div>
+
+      {/* Inner stroke — AABB 342.176×300.996 at (3.91, 4.81), content rotate 83.76° */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute left-[1.117%] top-[1.548%] flex h-[96.903%] w-[97.765%] items-center justify-center"
+      >
+        <div
+          className="blob-fluid-inner relative flex-none rotate-[83.76deg]"
+          style={innerNativeStyle}
+        >
+          {/* Figma: absolute inset-[-0.32%_-0.37%] around stroke SVG */}
+          <div className="absolute inset-[-0.32%_-0.37%]">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={frame.inner} alt="" className="block size-full max-w-none" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function BlobArtboard({
+  src,
+  alt,
+  frame,
+  invertPhoto = false,
+  frameLockedPhoto = false,
+  focus,
+}: {
+  src: string;
+  alt: string;
+  frame: FrameConfig;
+  invertPhoto?: boolean;
+  frameLockedPhoto?: boolean;
   focus?: ProductImageFocus;
 }) {
   const position = focus?.position ?? "50% 50%";
   // Tight Figma-like fill; tiny oversize left for hover reveal only
   const scale = focus?.scale ?? 1.12;
 
-  // Keep the product upright on the page:
-  // - invertFrame → 180° on the outer shell, so counter with 180°
-  // - France artboard is built sideways (rotateShell 90°) — counter the photo
-  // Combine into one rotate — Tailwind rotate-* utilities conflict on `transform`
-  // (Double Choco uses both, and only one would win → sideways photo).
-  const isFranceShell = frame.mask.includes("france");
-  const photoRotateDeg =
-    (invertPhoto ? 180 : 0) + (isFranceShell ? -90 : 0);
+  // Keep the product upright when invertFrame rotates the outer shell 180°.
+  // frameLockedPhoto: Figma image-fill rotates with the blob — no counter-rotate.
+  const photoRotateDeg = frameLockedPhoto ? 0 : invertPhoto ? 180 : 0;
+  const fit = frameLockedPhoto ? "object-contain" : "object-cover";
 
   return (
     <div className={`${frame.artboard} ${frame.rotateShell ?? ""}`}>
@@ -170,11 +307,15 @@ function BlobArtboard({
       >
         <div className="blob-fluid-mask-counter absolute inset-0">
           {/*
-            Small bleed (-4%) for reveal; scale zooms in so rest framing
-            stays tight like Figma instead of looking zoomed out.
+            Extra bleed so the blob aperture can drift without revealing
+            photo edges.
           */}
           <div
-            className="absolute inset-[-4%]"
+            className={
+              frameLockedPhoto
+                ? "absolute inset-[-6%]"
+                : "absolute inset-[-10%]"
+            }
             // Use CSS `rotate` (not `transform`) so it composes with
             // Tailwind v4 individual transform properties on parent shells.
             style={
@@ -187,7 +328,7 @@ function BlobArtboard({
               src={src}
               alt={alt}
               fill
-              className="object-cover"
+              className={fit}
               sizes="(max-width: 768px) 100vw, 520px"
               style={{
                 objectPosition: position,
@@ -238,6 +379,7 @@ export function ProductImage({
   variant = "pastry",
   flip = false,
   invertFrame = false,
+  frameLockedPhoto = false,
   focus,
   className = "",
 }: ProductImageProps) {
@@ -250,16 +392,19 @@ export function ProductImage({
       ? "rotate-180 md:group-hover:translate-y-1.5 md:group-hover:scale-[1.015]"
       : "md:group-hover:-translate-y-1.5 md:group-hover:scale-[1.015] md:group-hover:rotate-[-0.6deg]";
 
+  const Artboard = variant === "france" ? FranceBlobArtboard : BlobArtboard;
+
   // Hover driven by parent `group` (figure) so caption hover plays the same motion.
   return (
     <div
       className={`relative ${frame.shell} transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform ${orientation} ${className}`}
     >
-      <BlobArtboard
+      <Artboard
         src={src}
         alt={alt}
         frame={frame}
         invertPhoto={invertFrame}
+        frameLockedPhoto={frameLockedPhoto}
         focus={focus}
       />
     </div>

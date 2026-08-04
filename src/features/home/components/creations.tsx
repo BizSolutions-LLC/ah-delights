@@ -8,6 +8,7 @@ import {
   homeMadePastries,
   ubeTreats,
 } from "@/features/home/products";
+import { preventOrphan } from "@/lib/typography";
 
 function productHoverClass(index: number, className = "") {
   const direction =
@@ -20,13 +21,13 @@ function productHoverClass(index: number, className = "") {
  * Avoid dimming, tracking shifts, or staggered delays (those feel busy).
  */
 const captionTitleClass =
-  "font-montserrat text-lg font-semibold text-ad-primary-text transition-transform duration-700 ease-out md:text-xl md:group-hover:-translate-y-0.5";
+  "text-pretty font-montserrat text-lg font-semibold text-ad-primary-text transition-transform duration-700 ease-out md:text-xl md:group-hover:-translate-y-0.5";
 
 const captionTitleBoldClass =
-  "font-montserrat text-lg font-bold text-ad-primary-text transition-transform duration-700 ease-out md:group-hover:-translate-y-0.5";
+  "text-pretty font-montserrat text-lg font-bold text-ad-primary-text transition-transform duration-700 ease-out md:group-hover:-translate-y-0.5";
 
 const captionBodyClass =
-  "font-montserrat text-sm text-ad-primary-text transition-transform duration-700 ease-out md:text-lg md:group-hover:-translate-y-0.5";
+  "text-pretty font-montserrat text-sm text-ad-primary-text transition-transform duration-700 ease-out md:text-lg md:group-hover:-translate-y-0.5";
 
 /**
  * Em-spaced rows match Figma density on desktop. Tall mobile sections need
@@ -102,8 +103,8 @@ function CategoryTitle({
       <h3 className="w-full font-montserrat text-3xl font-semibold md:text-[40px]">
         {title}
       </h3>
-      <p className="w-full font-montserrat text-base md:text-lg">
-        {description}
+      <p className="w-full text-pretty font-montserrat text-base md:text-lg">
+        {preventOrphan(description)}
       </p>
     </div>
   );
@@ -116,10 +117,10 @@ export function Creations() {
       <section className="relative overflow-x-clip bg-ad-primary-bg px-5 pb-16 pt-28 md:px-[190px] md:pb-[100px] md:pt-[160px]">
         <div className="relative z-0 mx-auto flex max-w-[1060px] flex-col items-center gap-8 md:gap-[50px]">
           <SectionHeading title="Our Creations" />
-          <p className="w-full text-center font-montserrat text-base text-ad-primary-text md:text-lg">
-            Explore our collection of handmade cakes, cookies, cupcakes, and
-            specialty pastries, crafted with premium ingredients and presented
-            with care.
+          <p className="w-full text-pretty text-center font-montserrat text-base text-ad-primary-text md:text-lg">
+            {preventOrphan(
+              "Explore our collection of handmade cakes, cookies, cupcakes, and specialty pastries, crafted with premium ingredients and presented with care.",
+            )}
           </p>
         </div>
       </section>
@@ -151,7 +152,7 @@ export function Creations() {
                   focus={item.imageFocus}
                 />
                 <figcaption className={`text-center ${captionTitleClass}`}>
-                  {item.name}
+                  {preventOrphan(item.name)}
                 </figcaption>
               </figure>
             ))}
@@ -180,7 +181,7 @@ export function Creations() {
                         focus={item.imageFocus}
                       />
                       <figcaption className={captionTitleClass}>
-                        {item.name}
+                        {preventOrphan(item.name)}
                       </figcaption>
                     </figure>
                   ))}
@@ -195,12 +196,20 @@ export function Creations() {
         <div className="relative z-10 mx-auto flex w-full max-w-[1090px] flex-col items-center gap-[50px]">
           <CategoryTitle
             title="CLASSIC FAVORITES"
-            description="Our classic cookies and cupcakes bring that nostalgic, homemade charm everyone loves, These timeless treats never fail to delight and always feel just right."
+            description="Our classic cookies and cupcakes bring that nostalgic, homemade charm everyone loves. These timeless treats never fail to delight and always feel just right."
           />
 
-          <p className="list-inside list-disc font-montserrat text-lg font-semibold text-ad-primary-text md:text-xl">
-            <span className="inline-flex items-center gap-2 before:inline-block before:size-1.5 before:rounded-full before:bg-ad-primary-text">
+          <p className="font-montserrat text-lg font-semibold text-ad-primary-text md:text-xl">
+            <span className="inline-flex items-center gap-2">
+              <span
+                aria-hidden
+                className="size-1.5 rounded-full bg-ad-primary-text"
+              />
               COOKIE SELECTION
+              <span
+                aria-hidden
+                className="size-1.5 rounded-full bg-ad-primary-text"
+              />
             </span>
           </p>
 
@@ -225,9 +234,13 @@ export function Creations() {
                     focus={item.imageFocus}
                   />
                   <figcaption className="flex w-full flex-col gap-5 px-2">
-                    <p className={captionTitleClass}>{item.name}</p>
+                    <p className={captionTitleClass}>
+                      {preventOrphan(item.name)}
+                    </p>
                     {item.description ? (
-                      <p className={captionBodyClass}>{item.description}</p>
+                      <p className={captionBodyClass}>
+                        {preventOrphan(item.description)}
+                      </p>
                     ) : null}
                   </figcaption>
                 </figure>
@@ -250,9 +263,13 @@ export function Creations() {
                     focus={item.imageFocus}
                   />
                   <figcaption className="flex w-full flex-col gap-5 px-5">
-                    <p className={captionTitleClass}>{item.name}</p>
+                    <p className={captionTitleClass}>
+                      {preventOrphan(item.name)}
+                    </p>
                     {item.description ? (
-                      <p className={captionBodyClass}>{item.description}</p>
+                      <p className={captionBodyClass}>
+                        {preventOrphan(item.description)}
+                      </p>
                     ) : null}
                   </figcaption>
                 </figure>
@@ -291,7 +308,7 @@ export function Creations() {
                   focus={item.imageFocus}
                 />
                 <figcaption className={`text-center ${captionTitleClass}`}>
-                  {item.name}
+                  {preventOrphan(item.name)}
                 </figcaption>
               </figure>
             ))}
@@ -314,7 +331,7 @@ export function Creations() {
                   focus={item.imageFocus}
                 />
                 <figcaption className={`text-center ${captionTitleClass}`}>
-                  {item.name}
+                  {preventOrphan(item.name)}
                 </figcaption>
               </figure>
             ))}
@@ -329,9 +346,10 @@ export function Creations() {
             <h3 className="font-montserrat text-3xl font-semibold md:text-[40px]">
               Flavors of France
             </h3>
-            <p className="max-w-3xl font-montserrat text-base md:text-lg">
-              For chocolate pastries, we source top-tier imported cocoa powder,
-              ensuring every bite delivers rich, premium cacao depth.
+            <p className="w-full text-pretty font-montserrat text-base md:text-lg">
+              {preventOrphan(
+                "For chocolate pastries, we source top-tier imported cocoa powder, delivering rich, premium cacao depth.",
+              )}
             </p>
           </div>
           <ProductCarousel
@@ -352,11 +370,16 @@ export function Creations() {
                   alt={item.name}
                   variant="france"
                   invertFrame={index === 1}
+                  frameLockedPhoto={index === 1}
                   focus={item.imageFocus}
                 />
                 <figcaption className="px-2">
-                  <p className={`mb-2 ${captionTitleBoldClass}`}>{item.name}</p>
-                  <p className={captionBodyClass}>{item.description}</p>
+                  <p className={`mb-2 ${captionTitleBoldClass}`}>
+                    {preventOrphan(item.name)}
+                  </p>
+                  <p className={captionBodyClass}>
+                    {preventOrphan(item.description ?? "")}
+                  </p>
                 </figcaption>
               </figure>
             ))}
@@ -376,11 +399,16 @@ export function Creations() {
                   alt={item.name}
                   variant="france"
                   invertFrame={index === 1}
+                  frameLockedPhoto={index === 1}
                   focus={item.imageFocus}
                 />
                 <figcaption className="px-4">
-                  <p className={`mb-2 ${captionTitleBoldClass}`}>{item.name}</p>
-                  <p className={captionBodyClass}>{item.description}</p>
+                  <p className={`mb-2 ${captionTitleBoldClass}`}>
+                    {preventOrphan(item.name)}
+                  </p>
+                  <p className={captionBodyClass}>
+                    {preventOrphan(item.description ?? "")}
+                  </p>
                 </figcaption>
               </figure>
             ))}

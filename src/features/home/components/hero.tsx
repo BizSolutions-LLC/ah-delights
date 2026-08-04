@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { preventOrphan } from "@/lib/typography";
 
 /**
  * Positions are percentages of the Figma 1440×880 hero frame so vectors
@@ -73,7 +74,7 @@ export function Hero() {
           />
         </div>
 
-        {/* Desktop pastry — Figma-positioned beside copy */}
+        {/* Desktop pastry — Figma blob mask + outline beside copy */}
         <div className="pointer-events-none absolute inset-0 z-[2] hidden md:block">
           <img
             src="/decor/hero-vector-3.svg"
@@ -88,20 +89,32 @@ export function Hero() {
             }}
           />
           <div
-            className="absolute"
+            className="absolute overflow-hidden"
             style={{
               left: pct(vector2.x, frame.w),
               top: pct(vector2.y, frame.h),
               width: pct(vector2.w, frame.w),
               height: pct(vector2.h, frame.h),
+              WebkitMaskImage: "url(/icons/mask-blob-hero.svg)",
+              maskImage: "url(/icons/mask-blob-hero.svg)",
+              WebkitMaskSize: "100% 100%",
+              maskSize: "100% 100%",
+              WebkitMaskRepeat: "no-repeat",
+              maskRepeat: "no-repeat",
+              WebkitMaskPosition: "center",
+              maskPosition: "center",
+              // Luminance masks treat white as visible
+              WebkitMaskMode: "luminance",
+              maskMode: "luminance",
             }}
           >
             <Image
-              src="/products/hero-pastry.png"
+              src="/products/hero-pastry.jpg"
               alt="AhDelights chocolate cake tray with a plated slice"
               fill
               priority
-              className="object-contain"
+              // Bias slightly left so the foil pan stays in frame with the plate + plant
+              className="object-cover object-[46%_48%]"
               sizes="66vw"
             />
           </div>
@@ -125,13 +138,15 @@ export function Hero() {
 
             <div className="flex w-full max-w-[736px] flex-col items-start gap-5 md:gap-[50px]">
               <div className="flex w-full flex-col items-start gap-3 md:gap-[25px]">
-                <h1 className="animate-fade-up w-full text-left font-display text-[1.65rem] font-bold leading-snug text-ad-primary-text sm:text-4xl md:text-[52px] md:leading-normal">
-                  Handcrafted Indulgence made with premium ingredients.
+                <h1 className="animate-fade-up w-full text-pretty text-left font-display text-[1.65rem] font-bold leading-snug text-ad-primary-text sm:text-4xl md:text-[52px] md:leading-normal">
+                  {preventOrphan(
+                    "Handcrafted Indulgence made with premium ingredients.",
+                  )}
                 </h1>
-                <p className="animate-fade-up-delay w-full text-left font-montserrat text-sm font-semibold leading-snug text-ad-primary-text md:text-[28px] md:leading-normal">
-                  Discover delicious home‑made pastries crafted from scratch
-                  using quality ingredients, thoughtfully baked to bring warmth
-                  and comfort straight to your table.
+                <p className="animate-fade-up-delay w-full text-pretty text-left font-montserrat text-sm font-semibold leading-snug text-ad-primary-text md:text-[28px] md:leading-normal">
+                  {preventOrphan(
+                    "Discover delicious home‑made pastries crafted from scratch using quality ingredients, thoughtfully baked to bring warmth and comfort straight to your table.",
+                  )}
                 </p>
               </div>
 
@@ -157,11 +172,12 @@ export function Hero() {
         {/* Mobile cake — full-bleed below CTAs, not behind buttons */}
         <div className="relative z-[2] h-[min(46svh,380px)] w-full shrink-0 md:hidden">
           <Image
-            src="/products/hero-pastry.png"
+            src="/products/hero-pastry.jpg"
             alt="AhDelights chocolate cake tray with a plated slice"
             fill
             priority
-            className="object-cover object-[70%_42%]"
+            // Favor plated slice + plant in the tall mobile crop
+            className="object-cover object-[72%_40%]"
             sizes="100vw"
           />
           <div

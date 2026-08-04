@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from "react";
 import { ProductImage } from "@/features/home/components/product-image";
 import { classicCookies } from "@/features/home/products";
+import { preventOrphan } from "@/lib/typography";
 
 function productHoverClass(index: number, className = "") {
   const direction =
@@ -11,10 +12,10 @@ function productHoverClass(index: number, className = "") {
 }
 
 const captionTitleClass =
-  "font-montserrat text-lg font-semibold text-ad-primary-text transition-transform duration-700 ease-out md:text-xl md:group-hover:-translate-y-0.5";
+  "text-pretty font-montserrat text-lg font-semibold text-ad-primary-text transition-transform duration-700 ease-out md:text-xl md:group-hover:-translate-y-0.5";
 
 const captionBodyClass =
-  "font-montserrat text-sm text-ad-primary-text transition-transform duration-700 ease-out md:text-lg md:group-hover:-translate-y-0.5";
+  "text-pretty font-montserrat text-sm text-ad-primary-text transition-transform duration-700 ease-out md:text-lg md:group-hover:-translate-y-0.5";
 
 export function CookieSelection({ children }: { children?: ReactNode }) {
   const [selected, setSelected] = useState<number | null>(null);
@@ -119,12 +120,12 @@ export function CookieSelection({ children }: { children?: ReactNode }) {
           >
             {active ? (
               <>
-                <p className="font-montserrat text-lg font-semibold text-ad-primary-text">
-                  {active.name}
+                <p className="text-pretty font-montserrat text-lg font-semibold text-ad-primary-text">
+                  {preventOrphan(active.name)}
                 </p>
                 {active.description ? (
-                  <p className="font-montserrat text-sm text-ad-primary-text">
-                    {active.description}
+                  <p className="text-pretty font-montserrat text-sm text-ad-primary-text">
+                    {preventOrphan(active.description)}
                   </p>
                 ) : null}
               </>
@@ -164,8 +165,12 @@ export function CookieSelection({ children }: { children?: ReactNode }) {
                 focus={item.imageFocus}
               />
               <figcaption className="flex flex-col gap-5 px-5">
-                <p className={captionTitleClass}>{item.name}</p>
-                <p className={captionBodyClass}>{item.description}</p>
+                <p className={captionTitleClass}>
+                  {preventOrphan(item.name)}
+                </p>
+                <p className={captionBodyClass}>
+                  {item.description ? preventOrphan(item.description) : null}
+                </p>
               </figcaption>
             </figure>
           ))}

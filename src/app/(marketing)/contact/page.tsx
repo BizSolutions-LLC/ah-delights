@@ -46,9 +46,9 @@ export default function ContactPage() {
       <section className="bg-ad-primary-bg px-5 py-12 md:px-20 md:py-16">
         <div className="mx-auto flex max-w-[846px] flex-col items-center gap-8">
           <SectionHeading title="Send Us a Message" />
-          <p className="text-center font-montserrat text-base text-ad-primary-text md:text-lg">
+          <p className="text-pretty text-center font-montserrat text-base text-ad-primary-text md:text-lg">
             Complete the form below with your inquiry, and we’ll be happy to
-            assist you.
+            {"\u00A0"}assist{"\u00A0"}you.
           </p>
           <ContactForm />
         </div>
@@ -59,7 +59,8 @@ export default function ContactPage() {
           <>
             You can also connect with{" "}
             <strong className="font-bold">AhDelights</strong> through our social
-            media pages for product inquiries, updates, and more information.
+            media pages for product inquiries, updates, and more
+            {"\u00A0"}information.
           </>
         }
       />
