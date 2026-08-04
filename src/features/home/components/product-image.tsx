@@ -8,7 +8,10 @@ export type ProductFrameVariant =
   | "france";
 
 export type ProductImageFocus = {
-  /** CSS object-position, e.g. "50% 40%" */
+  /**
+   * Framing focus as `"x% y%"` (center = `"50% 50%"`).
+   * Lower y% biases toward the top of the photo; lower x% toward the left.
+   */
   position?: string;
   /**
    * Zoom factor inside the blob (1 = cover the mask exactly).
@@ -18,6 +21,17 @@ export type ProductImageFocus = {
   /** Extra photo rotation in degrees (clockwise positive) */
   rotate?: number;
 };
+
+/** Parse `"50% 40%"` → pan from center for transform translate (screen space). */
+function focusPan(position: string | undefined): { x: number; y: number } {
+  const parts = (position ?? "50% 50%").trim().split(/\s+/);
+  const rawX = Number.parseFloat(parts[0] ?? "50");
+  const rawY = Number.parseFloat(parts[1] ?? parts[0] ?? "50");
+  const x = Number.isFinite(rawX) ? rawX : 50;
+  const y = Number.isFinite(rawY) ? rawY : 50;
+  // Match object-position intuition: 40% y → shift image down to favor the top.
+  return { x: 50 - x, y: 50 - y };
+}
 
 type ProductImageProps = {
   src: string;
@@ -150,6 +164,10 @@ function FranceBlobArtboard({
 }) {
   const position = focus?.position ?? "50% 50%";
   const scale = focus?.scale ?? 1.12;
+  // Quarter-turned France photos sit in a square cover box; landscape assets
+  // (e.g. cupcakes) only crop on X, so object-position Y is a no-op. Pan via
+  // translate instead — net orientation is identity, so x/y match the page.
+  const pan = focusPan(position);
 
   // Photo stays upright unless it's a pre-masked Figma fill (cupcake).
   const photoRotateDeg = frameLockedPhoto
@@ -171,6 +189,12 @@ function FranceBlobArtboard({
     width: `${(268.35 / 342.176) * 100}%`,
     aspectRatio: "268.35 / 314.864",
   } as const;
+
+  const photoTransform = quarterTurn
+    ? `scale(${scale}) translate(${pan.x}%, ${pan.y}%)${
+        focus?.rotate ? ` rotate(${focus.rotate}deg)` : ""
+      }`
+    : `scale(${scale})${focus?.rotate ? ` rotate(${focus.rotate}deg)` : ""}`;
 
   return (
     <div className="absolute inset-0">
@@ -212,10 +236,8 @@ function FranceBlobArtboard({
                   className={fit}
                   sizes="(max-width: 768px) 100vw, 350px"
                   style={{
-                    objectPosition: position,
-                    transform: `scale(${scale})${
-                      focus?.rotate ? ` rotate(${focus.rotate}deg)` : ""
-                    }`,
+                    objectPosition: quarterTurn ? "50% 50%" : position,
+                    transform: photoTransform,
                   }}
                 />
               </div>

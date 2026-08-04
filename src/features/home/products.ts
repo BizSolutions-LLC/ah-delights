@@ -134,9 +134,9 @@ export const flavorsOfFrance: ProductItem[] = [
     name: "Double Choco Cupcake",
     description:
       "Deep, velvety chocolate flavor, soft and luscious. each cupcake is topped with swirl of silky chocolate buttercream",
-    // Pre-masked Figma fill — rotates with the france blob (frameLockedPhoto).
-    image: "/products/product-double-choco-cupcakes-figma.png",
-    imageFocus: { position: "50% 50%", scale: 0.9 },
+    // Upright photo + invertFrame. position is screen-space: "x% y%" (lower y = higher in blob).
+    image: "/products/product-double-choco-cupcakes-upright.png",
+    imageFocus: { position: "50% 55%", scale: 1, rotate: 1 },
   },
   {
     name: "Choco Decadent Cups",

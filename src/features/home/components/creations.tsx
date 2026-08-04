@@ -370,7 +370,6 @@ export function Creations() {
                   alt={item.name}
                   variant="france"
                   invertFrame={index === 1}
-                  frameLockedPhoto={index === 1}
                   focus={item.imageFocus}
                 />
                 <figcaption className="px-2">
@@ -399,7 +398,7 @@ export function Creations() {
                   alt={item.name}
                   variant="france"
                   invertFrame={index === 1}
-                  frameLockedPhoto={index === 1}
+                  // frameLockedPhoto={index === 1}
                   focus={item.imageFocus}
                 />
                 <figcaption className="px-4">

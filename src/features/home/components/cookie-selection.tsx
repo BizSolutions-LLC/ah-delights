@@ -165,9 +165,7 @@ export function CookieSelection({ children }: { children?: ReactNode }) {
                 focus={item.imageFocus}
               />
               <figcaption className="flex flex-col gap-5 px-5">
-                <p className={captionTitleClass}>
-                  {preventOrphan(item.name)}
-                </p>
+                <p className={captionTitleClass}>{preventOrphan(item.name)}</p>
                 <p className={captionBodyClass}>
                   {item.description ? preventOrphan(item.description) : null}
                 </p>
