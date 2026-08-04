@@ -104,7 +104,6 @@ export function Hero() {
               WebkitMaskPosition: "center",
               maskPosition: "center",
               // Luminance masks treat white as visible
-              WebkitMaskMode: "luminance",
               maskMode: "luminance",
             }}
           >
