@@ -1,0 +1,54 @@
+---
+description: Next.js App Router folder structure for ah-delights (src/app)
+alwaysApply: true
+---
+
+# Next.js Folder Structure (ah-delights)
+
+Use the App Router with a `src/` directory. Prefer colocated route code; keep shared code outside `app/`.
+
+## Canonical layout
+
+```
+src/
+  app/                    # Routes only (layouts, pages, route handlers, loading/error)
+    (marketing)/          # Route groups for layout/URL organization (optional)
+    api/                  # Route handlers → src/app/api/**/route.ts
+    layout.tsx
+    page.tsx
+    globals.css
+  components/
+    ui/                   # Primitive/reusable UI (buttons, inputs, etc.)
+    # Feature-named folders for composed UI (e.g. components/cart/)
+  features/               # Domain modules (hooks, server actions, feature components)
+  lib/                    # Shared utilities, clients, config helpers
+  hooks/                  # Shared hooks used across features
+  types/                  # Shared TypeScript types
+  styles/                 # Global/non-route styles (if not in app/)
+public/                   # Static assets only
+```
+
+## Placement rules
+
+- **Routes live in `src/app/`** — only Next.js special files (`page`, `layout`, `loading`, `error`, `not-found`, `route`, `template`, `default`) and route-local `_components` / `_lib` when truly private to that segment.
+- **No business logic dumping ground in `app/`** — put domain logic in `src/features/<name>/`, shared helpers in `src/lib/`.
+- **Components**
+  - Cross-cutting UI → `src/components/ui/`
+  - Feature-specific UI → `src/features/<name>/components/` (or `src/components/<name>/` if thin)
+- **Server actions / data access** → colocate under the owning feature (`src/features/<name>/`), not as loose files in `app/`.
+- **Imports** — use the `@/` alias mapped to `src/` (e.g. `@/components/ui/button`, `@/features/cart`).
+- **Do not** create a parallel root-level `app/` or `pages/` directory; do not put source outside `src/` except `public/`, config, and project root tooling.
+
+## Examples
+
+```text
+✅ src/app/(shop)/products/[slug]/page.tsx
+✅ src/features/products/get-product.ts
+✅ src/components/ui/button.tsx
+
+❌ app/page.tsx                          # wrong: missing src/
+❌ src/app/utils/formatPrice.ts          # wrong: shared util belongs in lib/ or features/
+❌ src/components/ProductCheckoutForm.tsx # prefer features/checkout/components/
+```
+
+When adding files, match this layout. If unsure, prefer `features/` for domain code and `components/ui/` for primitives.

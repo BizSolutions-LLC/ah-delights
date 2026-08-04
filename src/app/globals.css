@@ -1,0 +1,250 @@
+@import "tailwindcss";
+
+:root {
+  --ad-primary-bg: #fff9ec;
+  --ad-secondary-bg: #f4d6d8;
+  --ad-accent: #f7e7a8;
+  --ad-primary-text: #684536;
+  --ad-button: #b9823e;
+  --ad-button-text: #fff9ec;
+  --ad-footer: #3e2924;
+  --ad-soft-white: #f8f8f8;
+  --ad-charcoal: #2e2e2e;
+  --ad-gray: #848484;
+  --ad-link: #2c8fff;
+  --background: var(--ad-primary-bg);
+  --foreground: var(--ad-primary-text);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-ad-primary-bg: var(--ad-primary-bg);
+  --color-ad-secondary-bg: var(--ad-secondary-bg);
+  --color-ad-accent: var(--ad-accent);
+  --color-ad-primary-text: var(--ad-primary-text);
+  --color-ad-button: var(--ad-button);
+  --color-ad-button-text: var(--ad-button-text);
+  --color-ad-footer: var(--ad-footer);
+  --color-ad-soft-white: var(--ad-soft-white);
+  --color-ad-charcoal: var(--ad-charcoal);
+  --color-ad-gray: var(--ad-gray);
+  --color-ad-link: var(--ad-link);
+  --font-sans: var(--font-montserrat-face);
+  --font-montserrat: var(--font-montserrat-face);
+  --font-display: var(--font-playfair-face);
+  --font-body: var(--font-inter-face);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-montserrat-face), system-ui, sans-serif;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.7s ease-out both;
+}
+
+.animate-fade-up-delay {
+  animation: fade-up 0.7s ease-out 0.15s both;
+}
+
+.animate-fade-up-delay-2 {
+  animation: fade-up 0.7s ease-out 0.3s both;
+}
+
+.blob-mask {
+  -webkit-mask-image: url("/icons/mask-blob-pastry.svg");
+  mask-image: url("/icons/mask-blob-pastry.svg");
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/*
+  Fluid blob hover via animatable custom props so hover-out can ease
+  back to rest instead of snapping when the infinite animation stops.
+*/
+@property --blob-x {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --blob-y {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --blob-r {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --blob-s {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+@property --blob-ix {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --blob-iy {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --blob-ir {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+@property --blob-is {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
+}
+
+@keyframes blob-fluid-mask {
+  0% {
+    --blob-x: 0;
+    --blob-y: 0;
+    --blob-r: 0;
+    --blob-s: 1;
+  }
+  35% {
+    --blob-x: 2;
+    --blob-y: -1.6;
+    --blob-r: 2.8;
+    --blob-s: 1.025;
+  }
+  100% {
+    --blob-x: -2.2;
+    --blob-y: 1.8;
+    --blob-r: -2.4;
+    --blob-s: 1.035;
+  }
+}
+
+@keyframes blob-fluid-mask-counter {
+  0% {
+    --blob-x: 0;
+    --blob-y: 0;
+    --blob-r: 0;
+    --blob-s: 1;
+  }
+  35% {
+    --blob-x: -2;
+    --blob-y: 1.6;
+    --blob-r: -2.8;
+    --blob-s: 0.976;
+  }
+  100% {
+    --blob-x: 2.2;
+    --blob-y: -1.8;
+    --blob-r: 2.4;
+    --blob-s: 0.966;
+  }
+}
+
+@keyframes blob-fluid-inner {
+  0% {
+    --blob-ix: 0;
+    --blob-iy: 0;
+    --blob-ir: 0;
+    --blob-is: 1;
+  }
+  40% {
+    --blob-ix: 2.6;
+    --blob-iy: -1.8;
+    --blob-ir: 3.4;
+    --blob-is: 0.985;
+  }
+  100% {
+    --blob-ix: -2.2;
+    --blob-iy: 2.2;
+    --blob-ir: -2.6;
+    --blob-is: 1.02;
+  }
+}
+
+.blob-fluid-mask,
+.blob-fluid-mask-counter,
+.blob-fluid-outer {
+  transform: translate(calc(var(--blob-x) * 1%), calc(var(--blob-y) * 1%))
+    rotate(calc(var(--blob-r) * 1deg)) scale(var(--blob-s));
+  transition:
+    --blob-x 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    --blob-y 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    --blob-r 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    --blob-s 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.blob-fluid-inner {
+  transform: translate(calc(var(--blob-ix) * 1%), calc(var(--blob-iy) * 1%))
+    rotate(calc(var(--blob-ir) * 1deg)) scale(var(--blob-is));
+  transition:
+    --blob-ix 1s cubic-bezier(0.22, 1, 0.36, 1),
+    --blob-iy 1s cubic-bezier(0.22, 1, 0.36, 1),
+    --blob-ir 1s cubic-bezier(0.22, 1, 0.36, 1),
+    --blob-is 1s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.group:hover .blob-fluid-mask,
+.group:hover .blob-fluid-outer {
+  animation: blob-fluid-mask 2.4s cubic-bezier(0.37, 0, 0.63, 1) infinite
+    alternate;
+  transition: none;
+}
+
+.group:hover .blob-fluid-mask-counter {
+  animation: blob-fluid-mask-counter 2.4s cubic-bezier(0.37, 0, 0.63, 1)
+    infinite alternate;
+  transition: none;
+}
+
+.group:hover .blob-fluid-inner {
+  animation: blob-fluid-inner 2.7s cubic-bezier(0.37, 0, 0.63, 1) 0.05s infinite
+    alternate;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob-fluid-mask,
+  .blob-fluid-mask-counter,
+  .blob-fluid-outer,
+  .blob-fluid-inner {
+    transition: none;
+  }
+
+  .group:hover .blob-fluid-mask,
+  .group:hover .blob-fluid-mask-counter,
+  .group:hover .blob-fluid-outer,
+  .group:hover .blob-fluid-inner {
+    animation: none;
+  }
+}
+

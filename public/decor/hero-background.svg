@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 880" fill="none" preserveAspectRatio="xMidYMid slice" width="100%" height="100%">
+  <!-- Extra-wide cream fill so object-cover never shows gaps on ultrawide screens -->
+  <rect x="-480" y="0" width="2400" height="880" fill="#FFF9EC"/>
+
+  <!-- Left pink wave fill (Figma Vector 4) -->
+  <g transform="translate(-86 -50)">
+    <path
+      d="M187.5 245C82.7 287.8 12 455.667 0 511V0H539.5C463.9 0 359.833 81.6667 336 120.5C310.833 161 292.3 202.2 187.5 245Z"
+      fill="#F4D6D8"
+    />
+  </g>
+
+  <!-- Left pink wave accent stroke (Figma Vector 5, ~3.16deg) -->
+  <g transform="translate(-104 -45) rotate(3.16 283.435 255.993)">
+    <path
+      d="M188.5 246C83.7 288.8 13 456.667 1 512V1H540.5C464.9 1 360.833 82.6667 337 121.5C311.833 162 293.3 203.2 188.5 246Z"
+      stroke="#F4D6D8"
+      stroke-width="2"
+    />
+  </g>
+</svg>
