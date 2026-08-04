@@ -9,8 +9,13 @@ export function getResendClient() {
 }
 
 export function getContactEmailConfig() {
-  return {
-    to: process.env.CONTACT_TO_EMAIL,
-    from: process.env.CONTACT_FROM_EMAIL,
-  };
+  const to = process.env.CONTACT_TO_EMAIL;
+  const from = process.env.CONTACT_FROM_EMAIL;
+  if (!to) {
+    throw new Error("CONTACT_TO_EMAIL is not configured");
+  }
+  if (!from) {
+    throw new Error("CONTACT_FROM_EMAIL is not configured");
+  }
+  return { to, from };
 }
