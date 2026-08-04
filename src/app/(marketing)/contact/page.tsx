@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { ContactForm } from "@/features/contact/components/contact-form";
 import { Socials } from "@/features/home/components/socials";
@@ -11,29 +10,41 @@ export const metadata = createMetadata({
   path: "/contact",
 });
 
+function ContactWave({ className }: { className?: string }) {
+  return (
+    <div aria-hidden className={`pointer-events-none absolute ${className ?? ""}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/decor/contact-wave-fill.svg"
+        alt=""
+        className="h-auto w-full max-w-none"
+      />
+      {/* Offset stroke — same doodle as hero Vector 5; CSS rotate keeps the path smooth */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/decor/contact-wave-stroke.svg"
+        alt=""
+        className="absolute left-[-3.3%] top-[-1%] h-[105.7%] w-[105.2%] max-w-none origin-center rotate-[3.16deg]"
+      />
+    </div>
+  );
+}
+
 export default function ContactPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-ad-secondary-bg px-5 pb-16 pt-24 md:px-20 md:pb-24 md:pt-[120px]">
-        <Image
-          src="/decor/contact-wave-left.svg"
-          alt=""
-          width={567}
-          height={545}
-          className="pointer-events-none absolute -left-24 top-0 hidden w-[35%] max-w-[420px] opacity-80 md:block"
-        />
-        <Image
-          src="/decor/contact-wave-right.svg"
-          alt=""
-          width={567}
-          height={545}
-          className="pointer-events-none absolute -right-24 top-16 hidden w-[35%] max-w-[420px] rotate-180 opacity-80 md:block"
-        />
-        <div className="relative mx-auto flex max-w-[736px] flex-col gap-6 text-center">
-          <h1 className="font-display text-4xl font-bold text-ad-primary-text md:text-[52px]">
-            Contact <span className="text-ad-button">AhDelights</span>
+      <section className="relative overflow-hidden bg-ad-secondary-bg px-5 pb-20 pt-32 md:px-20 md:pb-[100px] md:pt-[180px]">
+        <ContactWave className="hidden -left-[6%] -top-[8%] w-[42%] max-w-[540px] md:block" />
+        <ContactWave className="hidden -right-[6%] top-[4%] w-[42%] max-w-[540px] rotate-180 md:block" />
+
+        <div className="relative mx-auto flex max-w-[736px] flex-col items-center gap-10 text-center md:gap-[50px]">
+          <h1 className="font-display text-4xl font-bold tracking-wide text-ad-primary-text md:text-[52px] md:tracking-[0.04em]">
+            <span className="inline-block">Contact</span>
+            <span className="inline-block pl-[0.35em] text-ad-button md:pl-[0.5em]">
+              AhDelights
+            </span>
           </h1>
-          <p className="font-montserrat text-lg font-semibold text-ad-primary-text md:text-xl">
+          <p className="font-montserrat text-lg font-semibold leading-relaxed text-ad-primary-text md:text-xl md:leading-relaxed">
             Have a question about our pastries or would like to place an order?
             <br />
             <br />
