@@ -123,19 +123,19 @@ export function Hero() {
         <div className="relative z-10 flex flex-1 flex-col justify-center px-5 pb-5 pt-20 md:absolute md:inset-0 md:items-center md:px-20 md:py-[100px] md:pb-[100px] md:pt-[100px]">
           <div className="mx-auto flex w-full max-w-[1440px] flex-col items-start gap-5 md:gap-[50px]">
             <div className="flex w-full justify-center">
-              <div className="relative h-[110px] w-[107px] animate-fade-up md:h-[231px] md:w-[225px]">
+              <div className="relative h-[130px] w-[126px] animate-fade-up md:h-[270px] md:w-[263px]">
                 <Image
                   src="/logo.png"
                   alt="AhDelights"
                   fill
                   priority
                   className="object-contain"
-                  sizes="225px"
+                  sizes="263px"
                 />
               </div>
             </div>
 
-            <div className="flex w-full max-w-[736px] flex-col items-start gap-5 md:gap-[50px]">
+            <div className="flex w-full max-w-[736px] flex-col items-start gap-3 md:gap-6">
               <div className="flex w-full flex-col items-start gap-3 md:gap-[25px]">
                 <h1 className="animate-fade-up w-full text-pretty text-left font-display text-[1.65rem] font-bold leading-snug text-ad-primary-text sm:text-4xl md:text-[52px] md:leading-normal">
                   {preventOrphan(
