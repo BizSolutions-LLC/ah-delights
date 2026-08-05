@@ -26,7 +26,7 @@ export const siteConfig = {
     },
     instagram: {
       label: "Instagram: @addelights",
-      href: "https://www.instagram.com/addelights?utm_source=qr",
+      href: "https://www.instagram.com/ahdelightsbakes?utm_source=qr",
     },
   },
   nav: [
