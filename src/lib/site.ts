@@ -25,7 +25,7 @@ export const siteConfig = {
       href: "https://www.facebook.com/profile.php?id=100072024782838&mibextid=wwXIfr&mibextid=wwXIfr/",
     },
     instagram: {
-      label: "Instagram: @addelights",
+      label: "Instagram: @ahdelightsbakes",
       href: "https://www.instagram.com/ahdelightsbakes?utm_source=qr",
     },
   },

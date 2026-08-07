@@ -17,6 +17,9 @@
 }
 
 @theme inline {
+  /* Desktop Figma layouts — keep mobile through tablet (iPad) widths */
+  --breakpoint-md: 80rem; /* 1280px (default xl); was 768px */
+  --breakpoint-lg: 80rem; /* align with md so lg: does not fire earlier */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-ad-primary-bg: var(--ad-primary-bg);
