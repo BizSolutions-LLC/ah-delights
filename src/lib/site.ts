@@ -2,7 +2,7 @@ export const siteConfig = {
   name: "AhDelights",
   title: "AhDelights | Handcrafted Pastries",
   tagline:
-    "Handmade pastries made from scratch using premium ingredients, balanced sweetness, and Filipino-inspired flavors.",
+    "Handcrafted pastries made entirely from scratch, prepared in small batches with premium ingredients, delectable baked goods and balanced sweetness.",
   url: "https://ahdelights.com",
   locale: "en_US",
   ogImage: "/products/hero-pastry.jpg",

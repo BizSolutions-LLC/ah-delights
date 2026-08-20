@@ -21,7 +21,7 @@ export const bestSellers: ProductItem[] = [
   {
     name: "Chocolate Decadent Cake",
     description:
-      "A pure indulgence in its most elegant form. This cake delivers an intense, deep chocolate flavor that feels luxurious from the very first bite. The texture is incredibly soft, tender, and melt‑in‑your‑mouth with a silky-smooth chocolate ganache that glistens on top.",
+      "A pure indulgence in its most elegant form. This cake delivers an intense, deep chocolate flavor that feels luxurious from the very first bite. The texture is incredibly soft, tender, and melt‑in‑your‑mouth with a silky-smooth chocolate fudge glaze that glistens on top.",
     image: "/products/bestseller-chocolate.png",
     // Figma Card Image BG crop
     imageCrop: {

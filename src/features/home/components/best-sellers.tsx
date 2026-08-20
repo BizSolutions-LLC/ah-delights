@@ -30,13 +30,7 @@ function pct(value: number, total: number) {
   return `${(value / total) * 100}%`;
 }
 
-function BestSellerCard({
-  item,
-  index,
-}: {
-  item: ProductItem;
-  index: number;
-}) {
+function BestSellerCard({ item, index }: { item: ProductItem; index: number }) {
   return (
     <article
       className={`${index === 0 ? "bestseller-card-0" : "bestseller-card-1"} group/card relative w-full max-w-[400px] shrink-0 transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform md:hover:-translate-y-3 md:hover:scale-[1.02] ${index === 0 ? "md:hover:rotate-[-1deg]" : "md:hover:rotate-[1deg]"}`}
@@ -92,114 +86,115 @@ export function BestSellers() {
 
   return (
     <>
-    <section
-      id="our-best-seller"
-      className="group/stage relative scroll-mt-24 overflow-hidden bg-[#f4d6d8] max-md:-mt-px"
-    >
-      {/*
+      <section
+        id="our-best-seller"
+        className="group/stage relative scroll-mt-24 overflow-hidden bg-[#f4d6d8] max-md:-mt-px"
+      >
+        {/*
         Mobile: edge-anchored doodles so left/right framing matches desktop.
         A shared Figma artboard either crops both sides away (tall/narrow) or
         shrinks into a tiny top band (width-locked) — neither reads like desktop.
       */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 z-0 md:hidden"
-      >
-        <img
-          src="/decor/bestseller-vector-6.svg"
-          alt=""
-          className="absolute left-[-58%] top-[2%] w-[155%] max-w-none origin-center -rotate-[18.69deg]"
-        />
-        <img
-          src="/decor/bestseller-vector-7.svg"
-          alt=""
-          className="absolute left-[18%] top-[-4%] w-[140%] max-w-none origin-center rotate-[127.35deg]"
-        />
-      </div>
-
-      {/* Desktop: Figma 1440×925 artboard with exact % placement */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 z-0 mx-auto hidden aspect-[1440/925] w-full max-w-[1440px] md:block">
-        {/* Vector 6 — pale yellow doodle, left / behind cards */}
         <div
-          className="absolute flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform md:group-has-[.bestseller-card-0:hover]/stage:translate-x-[-1.5%] md:group-has-[.bestseller-card-0:hover]/stage:translate-y-[-2%] md:group-has-[.bestseller-card-0:hover]/stage:scale-[1.06] md:group-has-[.bestseller-card-0:hover]/stage:rotate-[-2deg]"
-          style={{
-            left: pct(vector6.x, frame.w),
-            top: pct(vector6.y, frame.h),
-            width: pct(vector6.w, frame.w),
-            height: pct(vector6.h, frame.h),
-          }}
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-0 md:hidden"
         >
           <img
             src="/decor/bestseller-vector-6.svg"
             alt=""
-            aria-hidden
-            className="max-w-none origin-center transition-opacity duration-700 ease-out md:group-has-[.bestseller-card-1:hover]/stage:opacity-60"
-            style={{
-              width: pct(vector6.innerW, vector6.w),
-              height: pct(vector6.innerH, vector6.h),
-              transform: `rotate(${vector6.rotate}deg)`,
-            }}
+            className="absolute left-[-58%] top-[2%] w-[155%] max-w-none origin-center -rotate-[18.69deg]"
           />
-        </div>
-
-        {/* Vector 7 — pale yellow doodle, right / behind cards */}
-        <div
-          className="absolute flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform md:group-has-[.bestseller-card-1:hover]/stage:translate-x-[1.5%] md:group-has-[.bestseller-card-1:hover]/stage:translate-y-[-2%] md:group-has-[.bestseller-card-1:hover]/stage:scale-[1.06] md:group-has-[.bestseller-card-1:hover]/stage:rotate-[2deg]"
-          style={{
-            left: pct(vector7.x, frame.w),
-            top: pct(vector7.y, frame.h),
-            width: pct(vector7.w, frame.w),
-            height: pct(vector7.h, frame.h),
-          }}
-        >
           <img
             src="/decor/bestseller-vector-7.svg"
             alt=""
-            aria-hidden
-            className="max-w-none origin-center transition-opacity duration-700 ease-out md:group-has-[.bestseller-card-0:hover]/stage:opacity-60"
-            style={{
-              width: pct(vector7.innerW, vector7.w),
-              height: pct(vector7.innerH, vector7.h),
-              transform: `rotate(${vector7.rotate}deg)`,
-            }}
+            className="absolute left-[18%] top-[-4%] w-[140%] max-w-none origin-center rotate-[127.35deg]"
           />
         </div>
-      </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-[1440px] md:min-h-[925px]">
-        <div className="mx-auto flex w-full max-w-[1060px] flex-col items-center gap-[50px] px-5 py-16 md:px-0 md:pb-[140px] md:pt-[100px]">
-          <SectionHeading title="Our Best Seller" />
-
-          <p className="w-full text-pretty text-center font-montserrat text-base text-ad-primary-text md:text-lg">
-            Discover <strong className="font-bold">AhDelights&apos;</strong> most
-            popular pastries featuring rich dark chocolate made from imported
-            {"\u00A0"}cacao{"\u00A0"}powder.
-          </p>
-
-          <ProductCarousel
-            label="Our best sellers"
-            className="md:hidden"
-            slideClassName="w-[min(88vw,400px)]"
+        {/* Desktop: Figma 1440×925 artboard with exact % placement */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-0 mx-auto hidden aspect-[1440/925] w-full max-w-[1440px] md:block">
+          {/* Vector 6 — pale yellow doodle, left / behind cards */}
+          <div
+            className="absolute flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform md:group-has-[.bestseller-card-0:hover]/stage:translate-x-[-1.5%] md:group-has-[.bestseller-card-0:hover]/stage:translate-y-[-2%] md:group-has-[.bestseller-card-0:hover]/stage:scale-[1.06] md:group-has-[.bestseller-card-0:hover]/stage:rotate-[-2deg]"
+            style={{
+              left: pct(vector6.x, frame.w),
+              top: pct(vector6.y, frame.h),
+              width: pct(vector6.w, frame.w),
+              height: pct(vector6.h, frame.h),
+            }}
           >
-            {bestSellers.map((item, index) => (
-              <BestSellerCard key={item.name} item={item} index={index} />
-            ))}
-          </ProductCarousel>
+            <img
+              src="/decor/bestseller-vector-6.svg"
+              alt=""
+              aria-hidden
+              className="max-w-none origin-center transition-opacity duration-700 ease-out md:group-has-[.bestseller-card-1:hover]/stage:opacity-60"
+              style={{
+                width: pct(vector6.innerW, vector6.w),
+                height: pct(vector6.innerH, vector6.h),
+                transform: `rotate(${vector6.rotate}deg)`,
+              }}
+            />
+          </div>
 
-          <div className="hidden w-full max-w-[894px] items-start justify-between gap-6 md:flex md:flex-row">
-            {bestSellers.map((item, index) => (
-              <BestSellerCard key={item.name} item={item} index={index} />
-            ))}
+          {/* Vector 7 — pale yellow doodle, right / behind cards */}
+          <div
+            className="absolute flex items-center justify-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform md:group-has-[.bestseller-card-1:hover]/stage:translate-x-[1.5%] md:group-has-[.bestseller-card-1:hover]/stage:translate-y-[-2%] md:group-has-[.bestseller-card-1:hover]/stage:scale-[1.06] md:group-has-[.bestseller-card-1:hover]/stage:rotate-[2deg]"
+            style={{
+              left: pct(vector7.x, frame.w),
+              top: pct(vector7.y, frame.h),
+              width: pct(vector7.w, frame.w),
+              height: pct(vector7.h, frame.h),
+            }}
+          >
+            <img
+              src="/decor/bestseller-vector-7.svg"
+              alt=""
+              aria-hidden
+              className="max-w-none origin-center transition-opacity duration-700 ease-out md:group-has-[.bestseller-card-0:hover]/stage:opacity-60"
+              style={{
+                width: pct(vector7.innerW, vector7.w),
+                height: pct(vector7.innerH, vector7.h),
+                transform: `rotate(${vector7.rotate}deg)`,
+              }}
+            />
           </div>
         </div>
-      </div>
 
-      {/* Full-bleed pink outside the 1440 artboard on ultrawide */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[#f4d6d8]"
-      />
-    </section>
+        <div className="relative z-10 mx-auto w-full max-w-[1440px] md:min-h-[925px]">
+          <div className="mx-auto flex w-full max-w-[1060px] flex-col items-center gap-[50px] px-5 py-16 md:px-0 md:pb-[140px] md:pt-[100px]">
+            <SectionHeading title="Favorites" />
+
+            <p className="w-full text-pretty text-center font-montserrat text-base text-ad-primary-text md:text-lg">
+              Discover <strong className="font-bold">AhDelights&apos;</strong>{" "}
+              most popular pastries featuring rich dark chocolate made from
+              imported
+              {"\u00A0"}cacao{"\u00A0"}powder.
+            </p>
+
+            <ProductCarousel
+              label="Our best sellers"
+              className="md:hidden"
+              slideClassName="w-[min(88vw,400px)]"
+            >
+              {bestSellers.map((item, index) => (
+                <BestSellerCard key={item.name} item={item} index={index} />
+              ))}
+            </ProductCarousel>
+
+            <div className="hidden w-full max-w-[894px] items-start justify-between gap-6 md:flex md:flex-row">
+              {bestSellers.map((item, index) => (
+                <BestSellerCard key={item.name} item={item} index={index} />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Full-bleed pink outside the 1440 artboard on ultrawide */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 bg-[#f4d6d8]"
+        />
+      </section>
 
       {/*
         Pink drip into Creations. Own band height so the wave shows, with
